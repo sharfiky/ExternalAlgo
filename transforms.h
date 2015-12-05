@@ -5,7 +5,6 @@
 #include "sources.h"
 
 const int nameSize = 10;
-//const std::string buffersDir = "D:\\visual studio 2015\\Projects\\external\\external\\buffers\\";
 const std::string buffersDir = ".\\buffers\\";
 
 

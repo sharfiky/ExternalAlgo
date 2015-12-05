@@ -14,22 +14,15 @@ protected:
 	IDataTransmitter<T> *totalOut_;
 	unsigned int sizeOfBlock_;
 	unsigned int numberOfBlocks_;
-
-	void clean()
-	{
-		for (size_t i = 0; i < numberOfBlocks_; ++i)
-		{
-			DeleteFile(numberToName(i).c_str());
-		}
-	}
 public:
-	
 	ExternalAlgorithms(IDataSource<T> *in, IDataTransmitter<T> *out, int memoryInBlock){
 		totalIn_ = in;
 		totalOut_ = out;
 		sizeOfBlock_ = memoryInBlock / sizeof(T);
 	}
+
 	virtual void preprocessing(std::vector<T> &a) = 0;
+
 	void split()
 	{
 		numberOfBlocks_ = 0;
@@ -45,12 +38,11 @@ public:
 		}
 	}
 
-	
 	virtual void merging() = 0;
+
 	void externalWork(){
 		split();
 		merging();
-		clean();
 	}
 };
 

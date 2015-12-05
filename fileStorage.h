@@ -28,6 +28,7 @@ public:
 
 	~FileStorage() {
 		close();
+		DeleteFile(fileFrom_.getName().c_str());
 	}
 
 	void close() {
@@ -36,7 +37,7 @@ public:
 
 	
 
-	bool canTakeData()
+	bool canTakeData() 
 	{
 		return fileFrom_.hasNext() || !emptyCash();
 	}

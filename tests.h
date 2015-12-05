@@ -23,7 +23,6 @@ using std::string;
 
 
 unsigned int maxSizeInRam = 30 * 1024 * 1024;
-//unsigned int maxInVector = 1000 * 1000 * 10;
 unsigned int maxInVector = 4000 * 1000 * 1000;
 
 const string testDir = ".\\test\\_";
@@ -61,24 +60,6 @@ bool checkVectorEq(vector<vector<T> > &a, vector<vector<T> > &b)
 }
 
 template <class TestType>
-void testSerialize(string name, TestType(*make_rand)()) {
-	string nameInDir = testDir + name;
-	IDataTransmitter<TestType> *out = new FileDataTransmitter<TestType>(nameInDir);
-	unsigned int n = littleIntRand();
-	vector<TestType> a(n), b(n);
-	for (size_t i = 0; i < n; ++i)
-	{
-		a[i] = make_rand();
-		out->push(a[i]);
-	}
-	out->close();
-	IDataSource<TestType> *in = new FileDataSource<TestType>(nameInDir);
-	for (size_t i = 0; i < n; ++i)
-		b[i] = in->get();
-	std::cout << name << " " << (checkVectorEq<TestType>(a, b) ? "OK" : "NO") << "\n";
-}
-
-template <class TestType>
 bool checkSort(IDataSource<TestType> *a, IDataSource<TestType> *b)
 {
 	TestType l;
@@ -97,6 +78,9 @@ bool checkSort(IDataSource<TestType> *a, IDataSource<TestType> *b)
 		return false;
 	return true;
 }
+
+
+
 template<class T> void generateToFile(const std::string &nameOfFile, unsigned int size, T(*make_rand)())
 {
 	IDataTransmitter<T> *testFile = new FileDataTransmitter<T>(nameOfFile);
@@ -118,12 +102,30 @@ template <class T> void sortFromFileToFile(const string &nameInFile, const strin
 	checkingFile->close();
 }
 
+
+template <class TestType>
+void testSerialize(string name, TestType(*make_rand)()) {
+	string nameInDir = testDir + name;
+	IDataTransmitter<TestType> *out = new FileDataTransmitter<TestType>(nameInDir);
+	unsigned int n = littleIntRand();
+	vector<TestType> a(n), b(n);
+	for (size_t i = 0; i < n; ++i)
+	{
+		a[i] = make_rand();
+		out->push(a[i]);
+	}
+	out->close();
+	IDataSource<TestType> *in = new FileDataSource<TestType>(nameInDir);
+	for (size_t i = 0; i < n; ++i)
+		b[i] = in->get();
+	std::cout << name << " " << (checkVectorEq<TestType>(a, b) ? "OK" : "NO") << "\n";
+}
+
 template <class TestType>
 void makeSortTest(unsigned int size, string name, TestType(*make_rand)())
 {
 	unsigned memoryInRam = min(sizeof(TestType) * size, maxSizeInRam);
 	memoryInRam = sizeof(TestType) * (min(memoryInRam / sizeof(TestType), maxInVector));
-	//unsigned int memoryInRam = (int)(sizeof(TestType) * 2 * sqrt(size * 1.0));
 	string nameInFile = testDir + name + "In.txt";
 	string nameOutFile = testDir + name + "Out.txt";
 
@@ -167,7 +169,6 @@ template <class TestType> void makeReverseTest(unsigned int size, string name, T
 	unsigned memoryInRam = min(sizeof(TestType) * size, maxSizeInRam);
 	memoryInRam = sizeof(TestType) * (min(memoryInRam / sizeof(TestType), maxInVector));
 
-	//unsigned memoryInRam = (int)(sizeof(TestType) * 2 * sqrt(size * 1.0));
 	string nameInFile = testDir + name + "In.txt";
 	string nameOutFile = testDir + name + "Out.txt";
 	string middle = testDir + "middle.txt";

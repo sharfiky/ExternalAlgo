@@ -12,10 +12,12 @@ class ExternalReverser : public ExternalAlgorithms<T> {
 public:
 	ExternalReverser(IDataSource<T> *in, IDataTransmitter<T> *out, unsigned int memoryInBlock) :
 		ExternalAlgorithms(in, out, memoryInBlock) {}
+
 	void preprocessing(std::vector<T> &a)
 	{
 		std::reverse(a.begin(), a.end());
 	}
+
 	void merging()
 	{
 		for (size_t j = 0, i; j < (int)numberOfBlocks_; ++j)

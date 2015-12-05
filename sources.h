@@ -33,11 +33,8 @@ private:
 	T nowT_;
 	bool haveInMemory_;
 public:
-	FileDataSource(const std::string &nameFile):nameFile_(nameFile)
-	{
-		fileFrom_.open(nameFile, std::fstream::in | std::fstream::binary);
-		haveInMemory_ = false;
-	}
+	FileDataSource(const std::string &nameFile):nameFile_(nameFile), haveInMemory_ (false),
+		fileFrom_(std::fstream(nameFile, std::fstream::in | std::fstream::binary)) {}
 
 	T preGet()
 	{
@@ -71,6 +68,11 @@ public:
 		}
 		return !fileFrom_.eof();
 	}
+
+	std::string getName() const
+	{
+		return nameFile_;
+	}
 };
 
 
@@ -91,10 +93,8 @@ class FileDataTransmitter : public IDataTransmitter <T>{
 private:
 	std::fstream fileTo_;
 public:
-	FileDataTransmitter(const std::string &nameFile)
-	{
-		fileTo_.open(nameFile, std::fstream::out | std::fstream::binary);
-	}
+	FileDataTransmitter(const std::string &nameFile):
+		fileTo_ (std::fstream(nameFile, std::fstream::out | std::fstream::binary)) {}
 
 	void push(T &some)
 	{
