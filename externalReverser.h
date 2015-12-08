@@ -17,13 +17,11 @@ private:
 
 	void merging_()
 	{
-		for (size_t j = 0, i; j < (int)numberOfBlocks_; ++j)
+		for (int i = numberOfBlocks_ - 1;  i >= 0; --i)
 		{
-			i = (int)numberOfBlocks_ - 1 - j;
-			FileStorage<T> fromBlock(numberToName(i), sizeOfBlock_);
 			vector<T> a;
-			for (size_t j = 0; j < sizeOfBlock_ && fromBlock.canTakeData(); ++j)
-				a.push_back(fromBlock.getData());
+			for (size_t j = 0; j < sizeOfBlock_ && buffers_[i]->canTakeData(); ++j)
+				a.push_back(buffers_[i]->getData());
 			for (size_t j = 0; j < a.size(); ++j)
 				totalOut_->push(a[j]);
 		}

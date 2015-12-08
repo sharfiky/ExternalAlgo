@@ -28,7 +28,7 @@ void allTestSerialize()
 
 void shortIntTester()
 {
-	makeSortTest(1000, "ShortIntSortTest", rand);
+	makeSortTest(10, "ShortIntSortTest", rand);
 	makeReverseTest(1000, "ShortIntReverseTest", rand);
 }
 void shortDoubleTester() {

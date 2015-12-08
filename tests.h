@@ -23,7 +23,7 @@ using std::string;
 
 
 unsigned int maxSizeInRam = 30 * 1024 * 1024;
-unsigned int maxInVector = 4000 * 1000 * 1000;
+unsigned int maxInVector = 1000 * 1000 * 1000;
 
 const string testDir = ".\\test\\_";
 
