@@ -17,7 +17,7 @@ private:
 
 	void merging_()
 	{
-		for (int i = numberOfBlocks_ - 1;  i >= 0; --i)
+		for (int i = numberOfBlocks_ - 1; i >= 0; --i)
 		{
 			vector<T> a;
 			for (size_t j = 0; j < sizeOfBlock_ && buffers_[i]->canTakeData(); ++j)

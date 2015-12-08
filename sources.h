@@ -36,11 +36,6 @@ public:
 	FileDataSource(const std::string &nameFile):nameFile_(nameFile), haveInMemory_ (false),
 		fileFrom_(std::fstream(nameFile, std::fstream::in | std::fstream::binary)) {}
 
-	void open()
-	{
-		fileFrom_.open(nameFile_.c_str(), std::fstream::in | std::fstream::binary);
-	}
-
 	T preGet()
 	{
 		T some;
@@ -50,14 +45,10 @@ public:
 
 	T get()
 	{
-		if (haveInMemory_)
-		{
-			preGetT_ = nowT_;
-		}
-		else
-		{
+		if (!haveInMemory_)
 			preGetT_ = preGet();
-		}
+		else
+			preGetT_ = nowT_;
 		haveInMemory_ = false;
 		return preGetT_;
 	}

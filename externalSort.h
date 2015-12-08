@@ -17,7 +17,6 @@ private:
 	}
 	void merging_() {
 		std::set<std::pair<T, int> > mySet;
-		
 		for (size_t i = 0; i < numberOfBlocks_; ++i)
 		{
 			mySet.insert(std::make_pair(buffers_[i]->getData(), i));
