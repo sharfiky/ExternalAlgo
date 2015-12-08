@@ -69,8 +69,6 @@ void testItAll()
 
 int main()
 {
-	
-	
 	_setmaxstdio(2048);
 	testItAll();
 	system("pause");

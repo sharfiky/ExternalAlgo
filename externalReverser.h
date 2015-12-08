@@ -9,16 +9,13 @@
 
 template<class T>
 class ExternalReverser : public ExternalAlgorithms<T> {
-public:
-	ExternalReverser(IDataSource<T> *in, IDataTransmitter<T> *out, unsigned int memoryInBlock) :
-		ExternalAlgorithms(in, out, memoryInBlock) {}
-
-	void preprocessing(std::vector<T> &a)
+private:
+	void preprocessing_(std::vector<T> &a)
 	{
 		std::reverse(a.begin(), a.end());
 	}
 
-	void merging()
+	void merging_()
 	{
 		for (size_t j = 0, i; j < (int)numberOfBlocks_; ++j)
 		{
@@ -31,4 +28,8 @@ public:
 				totalOut_->push(a[j]);
 		}
 	}
+public:
+	ExternalReverser(IDataSource<T> *in, IDataTransmitter<T> *out, unsigned int memoryInBlock) :
+		ExternalAlgorithms(in, out, memoryInBlock) {}
+
 };

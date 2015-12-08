@@ -74,9 +74,7 @@ bool checkSort(IDataSource<TestType> *a, IDataSource<TestType> *b)
 		l = a->get();
 		l = tmp;
 	}
-	if (a->hasNext() != b->hasNext())
-		return false;
-	return true;
+	return (a->hasNext() == b->hasNext());
 }
 
 
@@ -146,9 +144,7 @@ bool checkFileEq(IDataSource<T> *a, IDataSource<T> *b)
 		if (l != m)
 			return false;
 	}
-	if (a->hasNext() != b->hasNext())
-		return false;
-	return true;
+	return (a->hasNext() == b->hasNext());
 }
 
 

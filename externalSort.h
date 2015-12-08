@@ -10,17 +10,14 @@
 
 template<class T>
 class ExternalSorter : public ExternalAlgorithms<T> {
-public:
-	ExternalSorter(IDataSource<T> *in, IDataTransmitter<T> *out, int memoryInBlock) :
-		ExternalAlgorithms(in, out, memoryInBlock) {}
-	void preprocessing(std::vector<T> &a)
+private:
+	void preprocessing_(std::vector<T> &a)
 	{
 		std::sort(a.begin(), a.end());
 	}
-	void merging() {
+	void merging_() {
 		vector<FileStorage<T>*> buffers;
 		std::set<std::pair<T, int> > mySet;
-		vector<T> blockToOut;
 		for (size_t i = 0; i < numberOfBlocks_; ++i)
 		{
 			buffers.push_back(new FileStorage<T>(numberToName(i), sizeOfBlock_ / numberOfBlocks_));
@@ -34,13 +31,10 @@ public:
 			std::pair <T, int> tmp = *mySet.begin();
 			mySet.erase(mySet.begin());
 			int ind = tmp.second;
-			blockToOut.push_back(tmp.first);
+			totalOut_->push(tmp.first);
 			if (buffers[ind]->canTakeData())
 				mySet.insert(std::make_pair(buffers[ind]->getData(), ind));
-			if (blockToOut.size() > sizeOfBlock_ / numberOfBlocks_)
-				printVector(blockToOut, totalOut_);
 		}
-		printVector(blockToOut, totalOut_);
 
 		for (size_t i = 0; i < numberOfBlocks_; ++i)
 		{
@@ -48,4 +42,8 @@ public:
 			delete buffers[i];
 		}
 	}
+public:
+	ExternalSorter(IDataSource<T> *in, IDataTransmitter<T> *out, int memoryInBlock) :
+		ExternalAlgorithms(in, out, memoryInBlock) {}
+	
 };

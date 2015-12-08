@@ -14,16 +14,16 @@ void serialize(T &some, std::fstream &streamTo)
 template <class T>
 void serialize(std::vector<T> &some, std::fstream &streamTo)
 {
-	int n = some.size();
+	size_t n = some.size();
 	serialize(n, streamTo);
-	for (int i = 0; i < n; ++i)
+	for (size_t i = 0; i < n; ++i)
 		serialize(some[i], streamTo);
 }
 
 template <>
 void serialize<std::string>(std::string &some, std::fstream &streamTo)
 {
-	unsigned int n = some.size();
+	size_t n = some.size();
 	serialize(n, streamTo);
 	for (size_t i = 0; i < n; ++i)
 		serialize(some[i], streamTo);
@@ -39,16 +39,17 @@ void deserialize(T &some, std::fstream &streamFrom)
 template <class T>
 void deserialize(std::vector <T> &some, std::fstream &streamFrom)
 {
-	unsigned int n;
+	size_t n;
 	deserialize(n, streamFrom);
 	some.resize(n);
 	for (size_t i = 0; i < n; ++i)
 		deserialize(some[i], streamFrom);
 }
+
 template <>
 void deserialize<std::string>(std::string &some, std::fstream &streamFrom)
 {
-	unsigned int n;
+	size_t n;
 	deserialize(n, streamFrom);
 	some.resize(n);
 	for (size_t i = 0; i < n; ++i)

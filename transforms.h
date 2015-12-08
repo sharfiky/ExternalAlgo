@@ -7,15 +7,6 @@
 const int nameSize = 10;
 const std::string buffersDir = ".\\buffers\\";
 
-
-template<class T>
-void printVector(std::vector<T> &a, IDataTransmitter<T> *out)
-{
-	for (size_t i = 0; i < a.size(); ++i)
-		out->push(a[i]);
-	a.clear();
-}
-
 std::string intToString(int some, int size)
 {
 	int len = 0;
