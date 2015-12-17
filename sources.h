@@ -6,15 +6,12 @@
 #include <ostream>
 #include <vector>
 #include <queue>
-#include "serialize.h"
 #include <string>
-#include <Windows.h>
+#include "fileStorage.h"
 
-const int cashSize = 100;
+const size_t cashSize = 100;
 
-BOOL WINAPI DeleteFile(
-	_In_ LPCTSTR lpFileName
-	);
+
 
 template <class T>
 class IDataSource{
@@ -27,51 +24,28 @@ public:
 template <class T>
 class FileDataSource : public IDataSource<T>{
 private:
-	std::fstream fileFrom_;
-	std::string nameFile_;
-	T preGetT_;
-	T nowT_;
-	bool haveInMemory_;
+	FileStorage<T> fileFrom_;
 public:
-	FileDataSource(const std::string &nameFile):nameFile_(nameFile), haveInMemory_ (false),
-		fileFrom_(std::fstream(nameFile, std::fstream::in | std::fstream::binary)) {}
-
-	T preGet()
-	{
-		T some;
-		deserialize(some, fileFrom_);
-		return some;
-	}
+	FileDataSource(const std::string &nameFile, int cashSize = 1): fileFrom_(nameFile, false, cashSize){}
 
 	T get()
 	{
-		if (!haveInMemory_)
-			preGetT_ = preGet();
-		else
-			preGetT_ = nowT_;
-		haveInMemory_ = false;
-		return preGetT_;
+		return fileFrom_.getData();
 	}
 
 	void close()
 	{
-		fileFrom_.flush();
 		fileFrom_.close();
 	}
 
 	bool hasNext()
 	{
-		if (!haveInMemory_) //haveInMemory нужен, т.к. сначала мы пресчитываем элемент
-		{
-			nowT_ = preGet();
-			haveInMemory_ = true;
-		}
-		return !fileFrom_.eof();
+		return fileFrom_.canTakeData();
 	}
 
 	std::string getName() const
 	{
-		return nameFile_;
+		return fileFrom.nameOfFile_;
 	}
 };
 
@@ -81,7 +55,6 @@ template <class T>
 class IDataTransmitter{
 public:
 	virtual void push(T &some) = 0;
-	virtual void oflush() = 0;
 	virtual void close() { }
 	virtual ~IDataTransmitter(){
 		close();
@@ -91,23 +64,19 @@ public:
 template <class T>
 class FileDataTransmitter : public IDataTransmitter <T>{
 private:
-	std::fstream fileTo_;
+	FileStorage<T> fileTo_;
 public:
 	FileDataTransmitter(const std::string &nameFile):
-		fileTo_ (std::fstream(nameFile, std::fstream::out | std::fstream::binary)) {}
+		fileTo_ (nameFile, true) {}
 
 	void push(T &some)
 	{
-		serialize(some, fileTo_);
+		fileTo_.pushData(some);
 	}
 	
 	void close()
 	{
-		fileTo_.flush();
 		fileTo_.close();
 	}
 
-	void oflush() {
-		fileTo_.flush();
-	}
 };

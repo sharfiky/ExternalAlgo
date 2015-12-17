@@ -23,7 +23,7 @@ using std::string;
 
 
 unsigned int maxSizeInRam = 30 * 1024 * 1024;
-unsigned int maxInVector = 4000 * 1000 * 1000;
+unsigned int maxInVector = 1000 * 1000 * 1000;
 
 const string testDir = ".\\test\\_";
 
@@ -120,7 +120,7 @@ void testSerialize(string name, TestType(*make_rand)()) {
 }
 
 template <class TestType>
-void makeSortTest(unsigned int size, string name, TestType(*make_rand)())
+void makeSortTest(size_t size, string name, TestType(*make_rand)())
 {
 	unsigned memoryInRam = min(sizeof(TestType) * size, maxSizeInRam);
 	memoryInRam = sizeof(TestType) * (min(memoryInRam / sizeof(TestType), maxInVector));

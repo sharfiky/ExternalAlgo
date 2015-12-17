@@ -4,10 +4,10 @@
 #include <string>
 #include "sources.h"
 
-const int nameSize = 10;
+const size_t nameSize = 10;
 const std::string buffersDir = ".\\buffers\\";
 
-std::string intToString(int some, int size)
+std::string intToString(size_t some, size_t size)
 {
 	int len = 0;
 	std::string str;
@@ -17,13 +17,13 @@ std::string intToString(int some, int size)
 		some /= 10;
 		++len;
 	}
-	for (int i = 0; i < size - len; ++i)
+	for (size_t i = 0; i < size - len; ++i)
 		str += '0';
 	reverse(str.begin(), str.end());
 	return str;
 }
 
-std::string numberToName(int number)
+std::string numberToName(size_t number)
 {
 	std::string name = buffersDir + "file N" + intToString(number, nameSize) + ".txt";
 	return name;

@@ -7,6 +7,7 @@
 #include "sources.h"
 #include "fileStorage.h"
 #include "externalAlgo.h"
+#include "serialize.h"
 
 template<class T>
 class ExternalSorter : public ExternalAlgorithms<T> {
@@ -29,12 +30,6 @@ private:
 			totalOut_->push(tmp.first);
 			if (buffers_[ind]->canTakeData())
 				mySet.insert(std::make_pair(buffers_[ind]->getData(), ind));
-		}
-
-		for (size_t i = 0; i < numberOfBlocks_; ++i)
-		{
-			buffers_[i]->close();
-			delete buffers_[i];
 		}
 	}
 public:

@@ -19,16 +19,23 @@ private:
 			for (size_t j = 0; j < sizeOfBlock_ && totalIn_->hasNext(); ++j)
 				a.push_back(totalIn_->get());
 			preprocessing_(a);
-			FileDataTransmitter<T> block(numberToName(i));
+			buffers_.push_back(new FileStorage<T>(numberToName(i)));
 			for (size_t j = 0; j < a.size(); ++j)
-				block.push(a[j]);
+				buffers_[i]->pushData(a[j]);
 		}
 	}
 	void prepareBuffers_()
 	{
 		for (size_t i = 0; i < numberOfBlocks_; ++i)
 		{
-			buffers_.push_back(new FileStorage<T>(numberToName(i), sizeOfBlock_ / numberOfBlocks_));
+			buffers_[i]->changeCashSize(sizeOfBlock_ / numberOfBlocks_);
+		}
+	}
+	void cleaning_()
+	{
+		for (size_t i = 0; i < numberOfBlocks_; ++i)
+		{
+			delete buffers_[i];
 		}
 	}
 	virtual void merging_() = 0;
@@ -49,6 +56,7 @@ public:
 		split_();
 		prepareBuffers_();
 		merging_();
+		cleaning_();
 	}
 };
 
