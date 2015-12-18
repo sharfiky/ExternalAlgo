@@ -120,9 +120,9 @@ void testSerialize(string name, TestType(*make_rand)()) {
 }
 
 template <class TestType>
-void makeSortTest(size_t size, string name, TestType(*make_rand)())
+void makeSortTest(unsigned int size, string name, TestType(*make_rand)())
 {
-	unsigned memoryInRam = min(sizeof(TestType) * size, maxSizeInRam);
+	unsigned int memoryInRam = min(sizeof(TestType) * size, maxSizeInRam);
 	memoryInRam = sizeof(TestType) * (min(memoryInRam / sizeof(TestType), maxInVector));
 	string nameInFile = testDir + name + "In.txt";
 	string nameOutFile = testDir + name + "Out.txt";
@@ -162,7 +162,7 @@ void reverseFromFileToFile(const string &nameInFile, const string &nameOutFile, 
 
 template <class TestType> void makeReverseTest(unsigned int size, string name, TestType(*make_rand)())
 {
-	unsigned memoryInRam = min(sizeof(TestType) * size, maxSizeInRam);
+	unsigned int memoryInRam = min(sizeof(TestType) * size, maxSizeInRam);
 	memoryInRam = sizeof(TestType) * (min(memoryInRam / sizeof(TestType), maxInVector));
 
 	string nameInFile = testDir + name + "In.txt";

@@ -63,7 +63,6 @@ void testItAll()
 	allTestSerialize();
 	shortTester();
 	mediumTester();
-	bigTesterNotRand();
 	system("rd .\\buffers\\");
 }
 
@@ -71,6 +70,5 @@ int main()
 {
 	_setmaxstdio(2048);
 	testItAll();
-	system("pause");
 	return 0;
 }

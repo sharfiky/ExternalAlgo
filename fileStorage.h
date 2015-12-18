@@ -13,7 +13,7 @@ private:
 	std::queue<T> cash_;
 	bool isWritting_;
 	int objectInCash_;
-	std::string nameOfFile;
+	std::string nameOfFile_;
 
 	T preGetT_;
 	T nowT_;
@@ -64,7 +64,7 @@ private:
 	void setFileMode_(bool modeOfFile) {
 		isWritting_ = modeOfFile;
 		file_.close();
-		file_.open(nameOfFile.c_str(), (modeOfFile ? std::ios_base::out : std::ios_base::in) | std::ios_base::binary);
+		file_.open(nameOfFile_.c_str(), (modeOfFile ? std::ios_base::out : std::ios_base::in) | std::ios_base::binary);
 	}
 
 	void changeMode_() {
@@ -76,7 +76,7 @@ private:
 
 public:
 	FileStorage(const std::string &nameOfBuffer, bool modeOfFile = true, int cashingSize = 1) : objectInCash_(cashingSize),
-		isWritting_(modeOfFile), nameOfFile(nameOfBuffer), haveInMemory_(false) {
+		isWritting_(modeOfFile), nameOfFile_(nameOfBuffer), haveInMemory_(false) {
 		setFileMode_(modeOfFile);
 	}
 
@@ -87,7 +87,7 @@ public:
 	}
 
 	std::string getName() {
-		return this->nameOfFile;
+		return this->nameOfFile_;
 	}	
 
 	bool canTakeData()
@@ -120,7 +120,7 @@ public:
 	}
 	void removeFile()
 	{
-		remove (nameOfFile.c_str());
+		remove (nameOfFile_.c_str());
 	}
 	~FileStorage()
 	{

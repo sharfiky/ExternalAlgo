@@ -45,7 +45,11 @@ public:
 
 	std::string getName() const
 	{
-		return fileFrom.nameOfFile_;
+		return fileFrom_.getName();
+	}
+	void removeFile()
+	{
+		fileFrom_.removeFile();
 	}
 };
 
@@ -55,9 +59,8 @@ template <class T>
 class IDataTransmitter{
 public:
 	virtual void push(T &some) = 0;
-	virtual void close() { }
+	virtual void close() = 0;
 	virtual ~IDataTransmitter(){
-		close();
 	}
 };
 
@@ -78,5 +81,8 @@ public:
 	{
 		fileTo_.close();
 	}
-
+	void removeTFile()
+	{
+		fileTo_.removeFile();
+	}
 };
