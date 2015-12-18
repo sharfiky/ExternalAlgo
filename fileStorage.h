@@ -12,7 +12,7 @@ private:
 	std::fstream file_;
 	std::queue<T> cash_;
 	bool isWritting_;
-	int objectInCash_;
+	unsigned int objectInCash_;
 	std::string nameOfFile_;
 
 	T preGetT_;

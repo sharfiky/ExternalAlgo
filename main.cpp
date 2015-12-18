@@ -48,7 +48,8 @@ void mediumTester()
 	makeSortTest(1000 * 1000, "MediumIntTest", rand);
 }
 void bigTesterNotRand() {
-	makeReverseTest(10 * 1000 * 1000, "MaximumIntReverseTest", randNot);
+	makeReverseTest(10 * 1000 * 1000, "MaximumIntReverseTest", rand);
+	makeSortTest(10 * 1000 * 1000, "MaximumIntSortTest", rand);
 }
 
 void makeDirectories()
@@ -63,6 +64,7 @@ void testItAll()
 	allTestSerialize();
 	shortTester();
 	mediumTester();
+	bigTesterNotRand();
 	system("rd .\\buffers\\");
 }
 

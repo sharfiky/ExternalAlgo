@@ -17,19 +17,19 @@ private:
 		std::sort(a.begin(), a.end());
 	}
 	void merging_() {
-		std::set<std::pair<T, int> > mySet;
+		std::priority_queue<std::pair<T, int> > mySet;
 		for (size_t i = 0; i < numberOfBlocks_; ++i)
 		{
-			mySet.insert(std::make_pair(buffers_[i]->getData(), i));
+			mySet.push(std::make_pair(buffers_[i]->getData(), i));
 		}
 		while (!mySet.empty())
 		{
-			std::pair <T, int> tmp = *mySet.begin();
-			mySet.erase(mySet.begin());
+			std::pair <T, int> tmp = mySet.top();
+			mySet.pop();
 			int ind = tmp.second;
 			totalOut_->push(tmp.first);
 			if (buffers_[ind]->canTakeData())
-				mySet.insert(std::make_pair(buffers_[ind]->getData(), ind));
+				mySet.push(std::make_pair(buffers_[ind]->getData(), ind));
 		}
 	}
 public:
